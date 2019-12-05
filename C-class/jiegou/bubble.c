@@ -6,9 +6,9 @@ void bubble_sort(int a[], int len)
 {
     int i, j;
 
-    for (i = 0; i < len - 1; ++i)
-        for (j = 0; j < len - i - 1; ++j)
-            if (a[j] >= a[j+1])
+    for (i = 0; i < len - 1; ++i)/* 外循环为排序趟数，len个数进行len-1趟 */
+        for (j = 0; j < len - i - 1; ++j)/* 内循环为每趟比较的次数，第i趟比较len-i次 */
+            if (a[j] >= a[j+1])/* 相邻元素比较，若逆序则交换（升序为左大于右，降序反之） */
             { // block
                 int t = a[j];
                 a[j] = a[j+1];

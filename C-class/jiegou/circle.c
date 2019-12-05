@@ -15,7 +15,7 @@
 // };//这里有个;别忘了
 //typedef old_type new_type;
 //typedef int A[5];
-// typedef struct _circle Circle;//Circle是别名(alias)，代表strct _circle
+//typedef struct _circle Circle;//Circle是别名(alias)，代表strct _circle
 
 typedef struct
 {
@@ -35,15 +35,17 @@ circle make_circle()
     t.x = rand() % 100;
     t.y = rand() % 100;
     t.r = rand() % 10;
+
+    return t;//这个不能忘了！！！！
 }
 
 int main()
 {
     circle c;//circle是类型，不是变量！c是结构体变量，定义了c之后，会为每个成员分配存储空间
 
-    c.x = 1.0;//“.”：成员选择运算符
-    c.y = 2.0;
-    c.r = 1.0;
+    // c.x = 1.0;//“.”：成员选择运算符
+    // c.y = 2.0;
+    // c.r = 1.0;
 
     int i;
 
@@ -55,6 +57,6 @@ int main()
         printf("(%.2lf,%.2lf)==>%.2lf\n", c.x, c.y, area(&c));
     }
     
-    printf("%lf\n",area(&c));//直接调用c
+    //printf("%lf\n",area(&c));//直接调用c
     return 0;
 }

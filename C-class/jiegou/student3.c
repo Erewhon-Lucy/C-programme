@@ -25,7 +25,7 @@ void bubble_sort(student a[], int len)
 
     for (i = 0; i < len - 1; ++i)
         for (j = 0; j < len - i - 1; ++j)
-            if (strcpy(a[j].name, a[j + 1].name) > 0)
+            if (strcmp(a[j].name, a[j + 1].name) > 0)
             { // block
                 student t = a[j];//C语言允许两个结构变量直接赋值，即使结构中有数组
                 a[j] = a[j + 1];

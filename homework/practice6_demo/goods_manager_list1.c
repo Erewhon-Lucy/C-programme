@@ -62,22 +62,23 @@ extern int CurrentCnt;
 //初始化
 void init_list(GoodsList** L)
 {
-    *L = malloc(sizeof(GoodsInfo));
-    (*L)->next = NULL;
+    char * goodlist;
+    FILE *fp;
+    *L = malloc(sizeof(GoodsList));
     GoodsList** cur = &(*L);
-    FILE* fp;
-    fp = fopen("goodinfo.txt", "r");
-    while (true) {
-        GoodsList* new_node = malloc(sizeof(GoodsInfo));
-        if (fscanf(fp, "%s%s%ls%d%s%d", new_node->data.goods_id, new_node->data.goods_name,
-                &new_node->data.goods_price, new_node->data.goods_discount, &new_node->data.goods_amount,
-                &new_node->data.goods_remain)
-            == NULL)
-            break;
+    int e;
+    while(!feof(fp))
+    {
+        GoodsList* new_node = malloc(sizeof(GoodsList));
+        fscanf(fp, "%d", &e);
+        new_node->data = e;
         (*cur)->next = new_node;
-        (*cur) = (*cur)->next;
+        (*cur) = new_node;
     }
-    printf("%d", 20);
+    (*cur)->next = NULL;
+    fclose(fp);
+    printf("%d\t",(*cur)->data);
+    (*cur) = (*cur)->next;
 }
 
 //插入
@@ -86,7 +87,8 @@ bool insert_item(GoodsList* L, GoodsInfo goodsInfo, int choice)
     GoodsList *cur, *prev, *new_node;
     new_node = malloc(sizeof(GoodsList));
     new_node->data = goodsInfo;
-    if (choice == 0) {
+    if (choice == 0)
+    {
         for (prev = NULL, cur = L; cur != NULL; prev = cur, cur = cur->next)
             ;
         new_node->next = NULL;
@@ -156,7 +158,7 @@ GoodsList* search_item(GoodsList* L, char* goods_id)
                 flag = false;
                 break;
             }
-        if (flag)
+        if (flag == true)
             return true;
     }
     return NULL;
@@ -176,7 +178,7 @@ bool change_item(GoodsList* L, char* goods_id, GoodsInfo new_info)
                 flag = false;
                 break;
             }
-        if (flag) {
+        if (flag == true) {
             L->data = new_info;
             return true;
         }

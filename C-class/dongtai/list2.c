@@ -6,8 +6,14 @@
 #include <string.h>
 #include <stdbool.h>
 
+typedef struct 
+{
+    int x, y;
+} point;
+
+
 //类型定义
-typedef int value_type;
+typedef point value_type;
 typedef value_type* value_pointer;
 
 typedef struct _node
@@ -220,7 +226,7 @@ size_t list_create_from_file(listptr l, const char *filename)
     size_t cnt = 0;
     while (!feof(fp))
     {
-        fscanf(fp, "%d", &v);
+        fscanf(fp, "%d%d", &v.x, &v.y);
         list_push_back(l, v);
         ++cnt;
     }
@@ -245,7 +251,7 @@ void list_save_to_file(listptr l, const char *filename)
 
     while (p !=NULL)
     {
-        fprintf(fp, "%d\n", p->data);
+        fprintf(fp, "%d\t%d\n", p->data.x, p->data.y);
         p = p->next;
     }
 
@@ -263,7 +269,10 @@ void list_sort(listptr l, compare comp_f)
 }
 
 //用于打印的回调函数
-void print(int *v) { printf("%6d", *v); }
+void print(point *v) 
+{
+    printf("(%d,%d)\n", v->x,v->y); 
+}
 
 int comp_int(int* v1, int* v2)
 {
@@ -280,7 +289,7 @@ int main()
 
     list_init(&l);
 
-    size_t c = list_create_from_file(&l,"data1.txt");
+    list_create_from_file(&l,"data2.txt");
 
     // list_create(&l, a, 10);
 
@@ -288,10 +297,10 @@ int main()
     // scanf("%lu%d", &pos, &v);
     // list_insert(&l, pos, v);
 
-    list_traverse(&l, print);
+    //list_traverse(&l, print);
     putchar('\n');
 
-    list_save_to_file(&l, "data11.txt");
+    list_save_to_file(&l, "data22.txt");
 
     list_clear(&l);
 

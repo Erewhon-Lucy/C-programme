@@ -62,23 +62,30 @@ extern int CurrentCnt;
 //初始化
 void init_list(GoodsList** L)
 {
-    char * goodlist;
-    FILE *fp;
-    *L = malloc(sizeof(GoodsList));
-    GoodsList** cur = &(*L);
-    int e;
-    while(!feof(fp))
-    {
-        GoodsList* new_node = malloc(sizeof(GoodsList));
-        fscanf(fp, "%d", &e);
-        new_node->data = e;
-        (*cur)->next = new_node;
-        (*cur) = new_node;
+    FILE* fp;
+    GoodsInfo goodsInfo;
+    GoodsList *p, *r;
+    (*L) = (GoodsList*)malloc(sizeof(GoodsList));
+    r = (*L);
+    if ((fp = fopen(GOODS_FILE_NAME, "r")) == NULL) {
+        if ((fp = fopen(GOODS_FILE_NAME, "w")) == NULL)
+            printf("error\n");
+    } else {
+        while (!feof(fp)) {
+            fscanf(fp, "%s", goodsInfo.goods_id);
+            fscanf(fp, "\t%s", goodsInfo.goods_name);
+            fscanf(fp, "\t%d", &goodsInfo.goods_price);
+            fscanf(fp, "\t%s", goodsInfo.goods_discount);
+            fscanf(fp, "\t%d", &goodsInfo.goods_amount);
+            fscanf(fp, "\t%d\n", &goodsInfo.goods_remain);
+            p = (GoodsList*)malloc(sizeof(GoodsList));
+            p->data = goodsInfo;
+            r->next = p;
+            r = p;
+            CurrentCnt++;
+        }
     }
-    (*cur)->next = NULL;
     fclose(fp);
-    printf("%d\t",(*cur)->data);
-    (*cur) = (*cur)->next;
 }
 
 //插入
